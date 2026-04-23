@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>睿城AI 3D建造 - 登录注册</title>
+    <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="grid-lines"></div>
+        <div class="floating-elements">
+            <div class="float"></div>
+            <div class="float"></div>
+            <div class="float"></div>
+            <div class="float"></div>
+            <div class="float"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="wrapper">
+            <div class="info-section">
+                <div class="logo">
+                    <div class="logo-icon"><img src="images/logo.png" alt="睿城AI"></div>
+                </div>
+                
+                <h1 class="title">
+                    <span class="title-highlight">睿城AI  3D建造</span>
+                </h1>
+                
+                <p class="description">
+                    专业的CAD转3D可视化平台，让建筑设计更加直观。支持全景图查看、三维几何渲染等强大功能，助力您的设计工作。
+                </p>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">精准转换</div>
+                        <div class="feature-desc">CAD图纸一键转换为三维模型</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👁️</div>
+                        <div class="feature-title">全景查看</div>
+                        <div class="feature-desc">沉浸式360度全景浏览体验</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✏️</div>
+                        <div class="feature-title">实时编辑</div>
+                        <div class="feature-desc">在线三维场景编辑器</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <div class="feature-title">高性能渲染</div>
+                        <div class="feature-desc">基于WebGL的实时渲染引擎</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-container">
+                    <div class="form-tabs">
+                        <div class="tab active" data-tab="login">登录</div>
+                        <div class="tab" data-tab="register">注册</div>
+                    </div>
+
+                    <form id="login-form" class="form active">
+                        <div class="form-group">
+                            <label class="form-label">邮箱</label>
+                            <input type="email" class="form-input" placeholder="请输入邮箱/手机号" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">密码</label>
+                            <input type="password" class="form-input" placeholder="请输入密码" required>
+                        </div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" id="remember" class="checkbox">
+                                <span class="checkbox-custom"></span>
+                            </label>
+                            <label for="remember" class="checkbox-label">记住我</label>
+                        </div>
+                        <button type="submit" class="btn-primary">登录</button>
+                        <div class="forgot-link">
+                            <a href="forgot-password.html">忘记密码？</a>
+                        </div>
+                    </form>
+
+                    <form id="register-form" class="form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">姓名</label>
+                                <input type="text" class="form-input" placeholder="请输入姓名" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">手机号</label>
+                                <input type="tel" class="form-input" placeholder="请输入手机号" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">邮箱</label>
+                            <input type="email" class="form-input" placeholder="请输入邮箱地址" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">密码</label>
+                            <input type="password" class="form-input" placeholder="请输入密码（至少6位）" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">确认密码</label>
+                            <input type="password" class="form-input" placeholder="请再次输入密码" required>
+                        </div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" id="agree" class="checkbox" required>
+                                <span class="checkbox-custom"></span>
+                            </label>
+                            <label for="agree" class="checkbox-label">我已阅读并同意<a href="#">用户协议</a>和<a href="#">隐私政策</a></label>
+                        </div>
+                        <button type="submit" class="btn-primary">注册</button>
+                        <div class="terms-text">
+                            注册即表示您同意我们的服务条款和隐私政策
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-message" id="success-message">
+        ✅ 操作成功！
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>

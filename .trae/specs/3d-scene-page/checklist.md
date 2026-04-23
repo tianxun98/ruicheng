@@ -1,0 +1,10 @@
+- [x] Checkpoint 1: 三维场景页面文件已创建（3d-scene.html）
+- [x] Checkpoint 2: 页面加载时显示动画logo，约2-3秒后自动消失
+- [x] Checkpoint 3: 页面顶部显示用户信息和退出按钮
+- [x] Checkpoint 4: 中间区域展示炫酷的3D立体图片，带有动画效果
+- [x] Checkpoint 5: 左侧物料选择面板包含多种物料选项
+- [x] Checkpoint 6: 点击物料可切换3D模型材质显示
+- [x] Checkpoint 7: 页面样式CSS文件已创建（3d-scene.css）
+- [x] Checkpoint 8: 页面交互JS文件已创建（3d-scene.js）
+- [x] Checkpoint 9: 主页面三维场景卡片点击可跳转到新页面
+- [x] Checkpoint 10: 页面响应式布局正常

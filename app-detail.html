@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>睿城AI 3D建造 - AI设计助手</title>
+    <style>
+        :root {
+            --primary-color: #00c8ff;
+            --success-color: #00ff88;
+            --danger-color: #ff4757;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .page-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            gap: 12px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn::after {
+            content: '返回上一级';
+            position: absolute;
+            right: 100%;
+            margin-right: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .back-btn:hover::after {
+            opacity: 1;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .logo img {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #0066ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .user-badge {
+            padding: 2px 8px;
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            font-size: 11px;
+            color: #00ff88;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .gallery-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .gallery-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-color);
+        }
+
+        .gallery-title h2 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+
+        .gallery-count {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .design-card {
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
+        }
+
+        .design-card:hover {
+            border-color: rgba(0, 200, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .design-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .design-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .design-card:hover .design-image {
+            transform: scale(1.05);
+        }
+
+        .design-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .design-card:hover .design-overlay {
+            opacity: 1;
+        }
+
+        .overlay-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease;
+        }
+
+        .overlay-btn:hover {
+            background: rgba(255, 71, 87, 0.9);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .overlay-btn:active {
+            transform: scale(0.95);
+        }
+
+        .design-info {
+            padding: 14px;
+        }
+
+        .design-prompt {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0 0 12px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+
+        .design-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rating-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .rating-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .rating-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .rating-btn.liked {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: rgba(0, 255, 136, 0.5);
+        }
+
+        .rating-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .like-icon {
+            color: #00ff88;
+        }
+
+        .dislike-icon {
+            color: #ff4757;
+        }
+
+        .rating-btn.liked svg,
+        .rating-btn.disliked svg {
+            fill: currentColor;
+        }
+
+        .use-btn {
+            padding: 8px 16px;
+            background: rgba(0, 200, 255, 0.15);
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            border-radius: 8px;
+            color: var(--primary-color);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .use-btn:hover {
+            background: rgba(0, 200, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 200, 255, 0.3);
+        }
+
+        .use-btn::after {
+            content: '启动AI引擎生成3D场景';
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%) translateY(8px);
+        }
+
+        .use-btn:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .download-btn {
+            padding: 8px 16px;
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            color: #00ff88;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .download-btn:hover {
+            background: rgba(0, 255, 136, 0.25);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px 0;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -48px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .close-btn::after {
+            content: '返回上一级';
+            position: absolute;
+            right: 100%;
+            margin-right: 12px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .close-btn:hover::after {
+            opacity: 1;
+        }
+
+        .chat-dialog {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 24px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.99) 100%);
+            border-top: 1px solid rgba(0, 200, 255, 0.1);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tools-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .tool-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: all 0.2s ease;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .tool-btn:hover {
+            color: var(--primary-color);
+            border-color: rgba(0, 200, 255, 0.3);
+            background: rgba(0, 200, 255, 0.05);
+        }
+
+        .tool-btn.active {
+            color: var(--primary-color);
+            border-color: rgba(0, 200, 255, 0.5);
+            background: rgba(0, 200, 255, 0.1);
+        }
+
+        .tool-btn::after {
+            content: '支持清晰的png,jpg室内cad户型图';
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%) translateY(8px);
+        }
+
+        .tool-btn:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .upload-btn {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: inherit;
+        }
+
+        .upload-btn input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .tool-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: rgba(0, 200, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .upload-preview {
+            display: none;
+            margin-left: 12px;
+            margin-right: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .upload-preview.show {
+            display: block;
+        }
+
+        .upload-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-preview .delete-btn {
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255, 71, 87, 0.9);
+            border: 2px solid var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+
+        .upload-preview:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            line-height: 1.6;
+            padding: 14px 12px;
+            resize: none;
+            min-height: 24px;
+            max-height: 160px;
+            overflow-y: auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .chat-input::placeholder {
+            color: #64748b;
+        }
+
+        .chat-input:focus {
+            outline: none;
+        }
+
+        .chat-input::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-input::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-input::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .submit-btn-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-right: 8px;
+        }
+
+        .submit-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .submit-btn::after {
+            content: '生成装修设计图';
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%) translateY(8px);
+            color: #ffffff;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-btn:hover:not(:disabled)::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .submit-btn.loading {
+            background: linear-gradient(135deg, #00c8ff 0%, #0066ff 100%);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .submit-btn.loading::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .submit-btn.loading .submit-icon {
+            opacity: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0, 200, 255, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(0, 200, 255, 0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .submit-icon {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+
+        .quick-prompts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 0;
+            justify-content: center;
+        }
+
+        .quick-prompt {
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            font-size: 13px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quick-prompt:hover {
+            background: rgba(0, 200, 255, 0.1);
+            border-color: rgba(0, 200, 255, 0.3);
+            color: var(--text-primary);
+        }
+
+        .upload-preview {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            right: 0;
+            padding: 8px;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+        }
+
+        .upload-preview img {
+            max-width: 140px;
+            max-height: 140px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 16px;
+            }
+
+            .content-area {
+                padding: 16px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-dialog {
+                padding: 12px 16px;
+            }
+
+            .tool-btn {
+                width: 34px;
+                height: 34px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <div class="logo">
+                <img src="images/logo.png" alt="睿城AI">
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">C</div>
+                    <div>
+                        <div class="user-name">candy</div>
+                        <div class="user-badge">高级用户</div>
+                    </div>
+                </div>
+                <button class="back-btn" id="back-btn" onclick="goBack()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <div class="gallery-header">
+                <div class="gallery-title">
+                    <svg class="gallery-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <h2>我的设计方案</h2>
+                    <span class="gallery-count">共 <span id="design-count">0</span> 个</span>
+                </div>
+            </div>
+
+            <div class="gallery-grid" id="gallery-grid">
+                <div class="empty-state">
+                    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <h3>暂无设计方案</h3>
+                    <p>在下方对话框中输入设计要求，<br>我将为您生成专业的室内设计方案</p>
+                </div>
+            </div>
+        </main>
+
+        <div class="chat-dialog">
+            <div class="chat-input-container">
+                <div class="tools-bar">
+                    <div class="tool-btn">
+                        <label class="upload-btn">
+                            <svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <input type="file" id="upload-file" accept="image/*" onchange="handleFileUpload(event)">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-wrapper">
+                    <div class="upload-preview" id="upload-preview">
+                        <img id="preview-img" src="" alt="预览">
+                        <button class="delete-btn" onclick="clearUpload(event)">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <textarea 
+                        class="chat-input" 
+                        id="chat-input" 
+                        placeholder="输入设计要求，或点击下方快捷提示..."
+                        onkeydown="handleKeyDown(event)"
+                    ></textarea>
+                    <div class="submit-btn-container">
+                        <button class="submit-btn" id="submit-btn" onclick="submitRequest()">
+                            <svg class="submit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13"/>
+                                <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="quick-prompts" id="quick-prompts">
+                    <span class="quick-prompt" onclick="addQuickPrompt('现代简约风格客厅设计')">现代简约客厅</span>
+                    <span class="quick-prompt" onclick="addQuickPrompt('北欧风格卧室设计')">北欧卧室</span>
+                    <span class="quick-prompt" onclick="addQuickPrompt('中式古典书房设计')">中式书房</span>
+                    <span class="quick-prompt" onclick="addQuickPrompt('工业风厨房设计')">工业风厨房</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-modal" id="image-modal">
+        <div class="modal-content">
+            <img class="modal-image" id="modal-image" src="" alt="大图预览">
+        </div>
+    </div>
+
+    <script src="js/app-detail.js"></script>
+</body>
+</html>

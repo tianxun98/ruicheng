@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>睿城AI - 全景图查看器</title>
+    <link rel="stylesheet" href="styles/panorama.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-area">
+                <div class="logo-img"><img src="images/logo.png" alt="睿城AI"></div>
+                <span class="logo-title">AI智能设计平台</span>
+            </div>
+            <nav class="main-nav">
+                <a href="main.html" class="nav-link">返回首页</a>
+                <a href="3d-scene.html" class="nav-link">三维场景</a>
+                     <button class="vr-btn" id="vr-btn">
+                    <svg class="vr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                    VR视图
+                </button>
+            </nav>
+            <div class="nav-right">
+                <div>
+                    <span class="user-badge">高级用户</span>
+                    <span class="user-name">candy</span>
+                </div>
+                <button class="logout-btn" id="logout-btn">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="panorama-container" id="panorama-container">
+            <div class="panorama-view" id="panorama-view">
+                <img src="images/panorama.jpg" 
+                     alt="全景图" 
+                     class="panorama-image"
+                     id="panorama-image">
+            </div>
+            
+            <div class="panorama-controls">
+                <button class="control-btn" id="left-btn">◀</button>
+                <button class="control-btn" id="up-btn">▲</button>
+                <button class="control-btn" id="down-btn">▼</button>
+                <button class="control-btn" id="right-btn">▶</button>
+            </div>
+            
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoom-in">+</button>
+                <span class="zoom-level" id="zoom-level">100%</span>
+                <button class="zoom-btn" id="zoom-out">−</button>
+            </div>
+        </div>
+
+        <div class="floor-plan-floating" id="floor-plan-floating">
+            <div class="floor-plan-header">
+                <span class="floor-plan-title">户型图</span>
+                <button class="close-btn" id="close-floor-plan">×</button>
+            </div>
+            <div class="floor-plan-content">
+                <img src="images/floor-plan.jpg" 
+                     alt="户型图" 
+                     class="floor-plan-img">
+                <div class="room-markers">
+                    <div class="marker living" data-room="living" style="top: 25%; left: 40%;"></div>
+                    <div class="marker bedroom" data-room="bedroom" style="top: 60%; left: 25%;"></div>
+                    <div class="marker kitchen" data-room="kitchen" style="top: 70%; left: 65%;"></div>
+                    <div class="marker bathroom" data-room="bathroom" style="top: 45%; left: 75%;"></div>
+                </div>
+            </div>
+            <div class="drag-handle"></div>
+        </div>
+
+        <div class="room-info" id="room-info">
+            <div class="room-name" id="room-name">客厅</div>
+            <div class="room-desc" id="room-desc">宽敞明亮的客厅，采光良好</div>
+        </div>
+    </main>
+
+    <script src="js/panorama.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>睿城AI 3D建造 - 主页面</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-area">
+                <div class="logo-img"><img src="images/logo.png" alt="睿城AI"></div>
+                <span class="logo-title">AI智能设计平台</span>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#" class="nav-link active">应用列表</a>
+                <a href="#" class="nav-link">产品</a>
+                <a href="#" class="nav-link">解决方案</a>
+                <a href="#" class="nav-link">帮助中心</a>
+            </nav>
+            
+            <div class="nav-right">
+                <div class="user-section">
+                    <span class="user-badge">高级用户</span>
+                    <span class="user-name">candy</span>
+                </div>
+                
+                <div class="lang-selector">
+                    <button class="lang-btn" id="lang-btn">中文</button>
+                    <div class="lang-dropdown">
+                        <div class="lang-option" data-lang="zh">中文</div>
+                        <div class="lang-option" data-lang="en">English</div>
+                        <div class="lang-option" data-lang="ja">日本語</div>
+                    </div>
+                </div>
+                
+                <button class="theme-toggle" id="theme-toggle" title="切换主题">
+                    <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                <button class="logout-btn" id="logout-btn">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h2 class="section-title">我的应用</h2>
+            <button class="create-btn" id="create-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                新建应用
+            </button>
+        </div>
+        
+        <div class="apps-grid" id="apps-grid">
+            <div class="empty-state" id="empty-state">
+                <div class="empty-icon">📦</div>
+                <p>暂无应用，点击上方按钮创建</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <h3>产品服务</h3>
+                    <ul>
+                        <li><a href="#">CAD转换</a></li>
+                        <li><a href="#">三维渲染</a></li>
+                        <li><a href="#">全景制作</a></li>
+                        <li><a href="#">API服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="#">建筑设计</a></li>
+                        <li><a href="#">房地产展示</a></li>
+                        <li><a href="#">城市规划</a></li>
+                        <li><a href="#">室内设计</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="#">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>帮助支持</h3>
+                    <ul>
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">API文档</a></li>
+                        <li><a href="#">用户协议</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">© 2024 睿城AI 3D建造. 保留所有权利.</div>
+                <div class="social-links">
+                    <span class="social-link">📧</span>
+                    <span class="social-link">💬</span>
+                    <span class="social-link">📱</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="app-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">新建应用</h3>
+                <button class="modal-close" id="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="app-name">应用名称</label>
+                    <input type="text" id="app-name" placeholder="请输入应用名称">
+                </div>
+                <div class="form-group">
+                    <label for="app-image">应用图片</label>
+                    <input type="file" id="app-image" accept="image/*">
+                    <div class="image-preview" id="image-preview">
+                        <img src="images/3d.png" alt="预览" id="preview-img">
+                    </div>
+                    <div class="icon-selector" id="icon-selector">
+                        <p class="selector-title">选择默认图标</p>
+                        <div class="icon-grid" id="icon-grid">
+                            <div class="icon-option" data-icon="images/3d.png">
+                                <img src="images/3d.png" alt="3D图标">
+                            </div>
+                            <div class="icon-option" data-icon="https://api.iconify.design/mdi/home.svg?color=%2300c8ff">
+                                <img src="https://api.iconify.design/mdi/home.svg?color=%2300c8ff" alt="房屋图标">
+                            </div>
+                            <div class="icon-option" data-icon="https://api.iconify.design/mdi/box.svg?color=%2300c8ff">
+                                <img src="https://api.iconify.design/mdi/box.svg?color=%2300c8ff" alt="盒子图标">
+                            </div>
+                            <div class="icon-option" data-icon="https://api.iconify.design/mdi/palette.svg?color=%2300c8ff">
+                                <img src="https://api.iconify.design/mdi/palette.svg?color=%2300c8ff" alt="调色板图标">
+                            </div>
+                            <div class="icon-option" data-icon="https://api.iconify.design/mdi/wand.svg?color=%2300c8ff">
+                                <img src="https://api.iconify.design/mdi/wand.svg?color=%2300c8ff" alt="魔法棒图标">
+                            </div>
+                            <div class="icon-option" data-icon="https://api.iconify.design/mdi/lightbulb.svg?color=%2300c8ff">
+                                <img src="https://api.iconify.design/mdi/lightbulb.svg?color=%2300c8ff" alt="灯泡图标">
+                            </div>
+                            <div class="icon-option" data-icon="https://api.iconify.design/mdi/cpu.svg?color=%2300c8ff">
+                                <img src="https://api.iconify.design/mdi/cpu.svg?color=%2300c8ff" alt="CPU图标">
+                            </div>
+                            <div class="icon-option" data-icon="https://api.iconify.design/mdi/brain.svg?color=%2300c8ff">
+                                <img src="https://api.iconify.design/mdi/brain.svg?color=%2300c8ff" alt="大脑图标">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-cancel">取消</button>
+                <button class="btn btn-primary" id="modal-confirm">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="delete-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>确认删除</h3>
+                <button class="modal-close" id="delete-close">×</button>
+            </div>
+            <div class="modal-body">
+                <p>确定要删除此应用吗？此操作无法撤销。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="delete-cancel">取消</button>
+                <button class="btn btn-danger" id="delete-confirm">确认删除</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

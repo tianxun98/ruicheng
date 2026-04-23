@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>睿城AI - 三维场景</title>
+    <link rel="stylesheet" href="styles/3d-scene.css">
+</head>
+<body>
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="images/logo.png" alt="睿城AI">
+            </div>
+            <div class="loader-text">加载中...</div>
+            <div class="loader-progress">
+                <div class="loader-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content" id="page-content">
+        <header>
+            <div class="header-content">
+                <div class="logo-area">
+                    <div class="logo-img"><img src="images/logo.png" alt="睿城AI"></div>
+                    <span class="logo-title">AI智能设计平台</span>
+                </div>
+                
+                <nav class="main-nav">
+                    <a href="#" class="nav-link active">三维场景</a>
+                </nav>
+                
+                <div class="nav-right">
+                    <button class="back-btn" id="back-btn" title="返回上一级">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <div>
+                        <span class="user-badge">高级用户</span>
+                        <span class="user-name">candy</span>
+                    </div>
+                    <button class="logout-btn" id="logout-btn">退出登录</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <aside class="materials-panel">
+                <h3 class="panel-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    构件库
+                </h3>
+                
+                <div class="tree-container">
+                    <ul class="tree">
+                        <li class="tree-item">
+                            <div class="tree-node">
+                                <span class="expand-icon">▶</span>
+                                <span class="node-icon">🏠</span>
+                                <span class="node-label">硬装材料</span>
+                            </div>
+                            <ul class="tree-children">
+                                <li class="tree-item"><span class="node-icon">🪵</span><span class="node-label">地板</span></li>
+                                <li class="tree-item"><span class="node-icon">🧱</span><span class="node-label">瓷砖</span></li>
+                                <li class="tree-item"><span class="node-icon">🎨</span><span class="node-label">墙面</span></li>
+                                <li class="tree-item"><span class="node-icon">⬆️</span><span class="node-label">吊顶</span></li>
+                                <li class="tree-item">
+                                    <div class="tree-node">
+                                        <span class="expand-icon">▶</span>
+                                        <span class="node-icon">🚪</span>
+                                        <span class="node-label">门窗</span>
+                                    </div>
+                                    <ul class="tree-children">
+                                        <li class="tree-item"><span class="node-label">木门</span></li>
+                                        <li class="tree-item"><span class="node-label">防盗门</span></li>
+                                        <li class="tree-item"><span class="node-label">窗户</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="tree-item">
+                            <div class="tree-node">
+                                <span class="expand-icon">▶</span>
+                                <span class="node-icon">🛋️</span>
+                                <span class="node-label">家具</span>
+                            </div>
+                            <ul class="tree-children">
+                                <li class="tree-item">
+                                    <div class="tree-node">
+                                        <span class="expand-icon">▶</span>
+                                        <span class="node-icon">🛏️</span>
+                                        <span class="node-label">卧室</span>
+                                    </div>
+                                    <ul class="tree-children">
+                                        <li class="tree-item selected"><span class="node-label">床</span></li>
+                                        <li class="tree-item"><span class="node-label">衣柜</span></li>
+                                        <li class="tree-item"><span class="node-label">床头柜</span></li>
+                                    </ul>
+                                </li>
+                                <li class="tree-item">
+                                    <div class="tree-node">
+                                        <span class="expand-icon">▶</span>
+                                        <span class="node-icon">🛋️</span>
+                                        <span class="node-label">客厅</span>
+                                    </div>
+                                    <ul class="tree-children">
+                                        <li class="tree-item"><span class="node-label">沙发</span></li>
+                                        <li class="tree-item"><span class="node-label">茶几</span></li>
+                                        <li class="tree-item"><span class="node-label">电视柜</span></li>
+                                    </ul>
+                                </li>
+                                <li class="tree-item">
+                                    <div class="tree-node">
+                                        <span class="expand-icon">▶</span>
+                                        <span class="node-icon">🍳</span>
+                                        <span class="node-label">厨房</span>
+                                    </div>
+                                    <ul class="tree-children">
+                                        <li class="tree-item"><span class="node-label">橱柜</span></li>
+                                        <li class="tree-item"><span class="node-label">吊柜</span></li>
+                                        <li class="tree-item"><span class="node-label">餐柜</span></li>
+                                    </ul>
+                                </li>
+                                <li class="tree-item">
+                                    <div class="tree-node">
+                                        <span class="expand-icon">▶</span>
+                                        <span class="node-icon">🚽</span>
+                                        <span class="node-label">卫生间</span>
+                                    </div>
+                                    <ul class="tree-children">
+                                        <li class="tree-item"><span class="node-label">马桶</span></li>
+                                        <li class="tree-item"><span class="node-label">浴室柜</span></li>
+                                        <li class="tree-item"><span class="node-label">花洒</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="tree-item">
+                            <div class="tree-node">
+                                <span class="expand-icon">▶</span>
+                                <span class="node-icon">🎭</span>
+                                <span class="node-label">软装</span>
+                            </div>
+                            <ul class="tree-children">
+                                <li class="tree-item"><span class="node-icon">🪟</span><span class="node-label">窗帘</span></li>
+                                <li class="tree-item"><span class="node-icon">🟫</span><span class="node-label">地毯</span></li>
+                                <li class="tree-item"><span class="node-icon">🖼️</span><span class="node-label">装饰品</span></li>
+                                <li class="tree-item"><span class="node-icon">💡</span><span class="node-label">灯具</span></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="tree-item">
+                            <div class="tree-node">
+                                <span class="expand-icon">▶</span>
+                                <span class="node-icon">🔌</span>
+                                <span class="node-label">电器</span>
+                            </div>
+                            <ul class="tree-children">
+                                <li class="tree-item"><span class="node-icon">🍳</span><span class="node-label">厨房电器</span></li>
+                                <li class="tree-item"><span class="node-icon">🚿</span><span class="node-label">卫浴电器</span></li>
+                                <li class="tree-item"><span class="node-icon">📺</span><span class="node-label">生活电器</span></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="tree-item">
+                            <div class="tree-node">
+                                <span class="expand-icon">▶</span>
+                                <span class="node-icon">🌿</span>
+                                <span class="node-label">景观</span>
+                            </div>
+                            <ul class="tree-children">
+                                <li class="tree-item"><span class="node-icon">🌲</span><span class="node-label">植物</span></li>
+                                <li class="tree-item"><span class="node-icon">🏡</span><span class="node-label">户外家具</span></li>
+                                <li class="tree-item"><span class="node-icon">⛲</span><span class="node-label">水景</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <section class="scene-viewer">
+                <div class="viewer-header">
+                    <h2 class="viewer-title">三维空间</h2>
+                    <div class="toolbar">
+                        <button class="toolbar-btn" id="save-btn" title="保存">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+                                <polyline points="17 3 12 8 7 3"></polyline>
+                                <line x1="12" y1="8" x2="12" y2="15"></line>
+                            </svg>
+                            <span>保存</span>
+                        </button>
+                        <button class="toolbar-btn" id="clear-btn" title="清空">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                            </svg>
+                            <span>清空</span>
+                        </button>
+                        <button class="toolbar-btn ai-render-btn" id="ai-render-btn" title="AI将重新渲染">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="9" cy="9" r="1.5"></circle>
+                                <circle cx="15" cy="9" r="1.5"></circle>
+                                <path d="M9 15h6"></path>
+                            </svg>
+                            <span>AI渲染</span>
+                        </button>
+                        <button class="toolbar-btn" id="drawing-btn" title="图纸">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="1"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="12" y1="3" x2="12" y2="9"></line>
+                                <line x1="3" y1="15" x2="12" y2="15"></line>
+                            </svg>
+                            <span>图纸</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="viewer-container">
+                    <div class="model-3d" id="model-3d">
+                        <img src="images/3d-scene.png" 
+                             alt="三维场景" 
+                             class="model-image"
+                             id="model-image">
+                    </div>
+                </div>
+            </section>
+
+            <aside class="info-panel">
+                <div class="floor-plan-section">
+                    <h3 class="panel-title">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="1"></rect>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="12" y1="3" x2="12" y2="9"></line>
+                            <line x1="3" y1="15" x2="12" y2="15"></line>
+                        </svg>
+                        户型图
+                    </h3>
+                    <div class="floor-plan-container">
+                        <img src="https://picsum.photos/400/300?random=floorplan" 
+                             alt="户型图" 
+                             class="floor-plan-image">
+                        <div class="room-label living">客厅</div>
+                        <div class="room-label bedroom">主卧</div>
+                        <div class="room-label kitchen">厨房</div>
+                        <div class="room-label bathroom">卫生间</div>
+                    </div>
+                    <div class="floor-plan-legend">
+                        <div class="legend-item"><span class="legend-color living"></span>客厅</div>
+                        <div class="legend-item"><span class="legend-color bedroom"></span>卧室</div>
+                        <div class="legend-item"><span class="legend-color kitchen"></span>厨房</div>
+                        <div class="legend-item"><span class="legend-color bathroom"></span>卫生间</div>
+                    </div>
+                </div>
+
+                <div class="params-section">
+                    <h3 class="panel-title">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 7h-9"></path>
+                            <path d="M14 14V7"></path>
+                            <rect x="1" y="11" width="15" height="11" rx="2"></rect>
+                            <circle cx="5.5" cy="16.5" r="1.5"></circle>
+                        </svg>
+                        选择物件参数
+                    </h3>
+                    
+                    <div class="object-selector">
+                        <div class="selector-title">点击选择物件:</div>
+                        <div class="object-list">
+                            <button class="object-btn" data-object="floor">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="3" y1="15" x2="21" y2="15"></line>
+                                </svg>
+                                <span>地板</span>
+                            </button>
+                            <button class="object-btn" data-object="bed">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="9" width="20" height="13" rx="2"></rect>
+                                    <rect x="5" y="5" width="14" height="6" rx="1"></rect>
+                                </svg>
+                                <span>床</span>
+                            </button>
+                            <button class="object-btn" data-object="cabinet">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+                                    <line x1="4" y1="10" x2="20" y2="10"></line>
+                                    <line x1="10" y1="3" x2="10" y2="21"></line>
+                                </svg>
+                                <span>柜子</span>
+                            </button>
+                            <button class="object-btn" data-object="sofa">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="8" width="18" height="10" rx="2"></rect>
+                                    <rect x="3" y="10" width="6" height="8" rx="1"></rect>
+                                </svg>
+                                <span>沙发</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="object-info" id="object-info">
+                        <div class="info-header">
+                            <span class="object-name" id="object-name">-</span>
+                        </div>
+
+                        <div class="param-section">
+                            <div class="section-title">尺寸参数</div>
+                            <div class="dimension-row">
+                                <div class="dimension-item">
+                                    <label>长度</label>
+                                    <input type="number" id="dim-length" value="150" min="50" max="500">
+                                    <span class="dim-unit">cm</span>
+                                </div>
+                                <div class="dimension-item">
+                                    <label>宽度</label>
+                                    <input type="number" id="dim-width" value="90" min="30" max="300">
+                                    <span class="dim-unit">cm</span>
+                                </div>
+                                <div class="dimension-item">
+                                    <label>高度</label>
+                                    <input type="number" id="dim-height" value="50" min="10" max="200">
+                                    <span class="dim-unit">cm</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="param-section">
+                            <div class="section-title">离板楼距离</div>
+                            <div class="distance-control">
+                                <input type="range" id="distance-slider" min="0" max="200" value="50">
+                                <div class="distance-value">
+                                    <span id="distance-value">50</span>
+                                    <span class="distance-unit">cm</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="param-section">
+                            <div class="section-title">2D显示</div>
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="top">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="1"></rect>
+                                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                                        <line x1="3" y1="15" x2="21" y2="15"></line>
+                                        <line x1="12" y1="3" x2="12" y2="21"></line>
+                                    </svg>
+                                    <span>俯视图</span>
+                                </button>
+                                <button class="view-btn" data-view="front">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="5" y="3" width="14" height="18" rx="1"></rect>
+                                        <line x1="5" y1="9" x2="19" y2="9"></line>
+                                        <line x1="5" y1="15" x2="19" y2="15"></line>
+                                    </svg>
+                                    <span>正视图</span>
+                                </button>
+                                <button class="view-btn" data-view="side">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="1"></rect>
+                                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                                        <line x1="3" y1="15" x2="21" y2="15"></line>
+                                    </svg>
+                                    <span>侧视图</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="js/3d-scene.js"></script>
+</body>
+</html>

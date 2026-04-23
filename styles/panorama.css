@@ -1,0 +1,473 @@
+:root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #1a2332;
+    --bg-card: rgba(15, 23, 42, 0.95);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --accent-primary: #00c8ff;
+    --accent-secondary: #0066ff;
+    --border-color: rgba(0, 200, 255, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-primary);
+    min-height: 100vh;
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+header {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    padding: 2px;
+}
+
+.logo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.logo-title {
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-primary), #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.main-nav {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-primary);
+    background: rgba(0, 200, 255, 0.1);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(0, 200, 255, 0.1);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.user-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: #00ff88;
+    padding: 2px 6px;
+    background: rgba(0, 255, 136, 0.15);
+    border-radius: 10px;
+}
+
+.vr-btn {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(99, 102, 241, 0.2));
+    border: 1px solid rgba(139, 92, 246, 0.5);
+    border-radius: 10px;
+    color: #a78bfa;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.vr-btn:hover {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(99, 102, 241, 0.3));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+
+.vr-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.logout-btn {
+    padding: 7px 14px;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05));
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+main {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    margin-top: 70px;
+}
+
+.panorama-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.panorama-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    transform-origin: center center;
+    cursor: grab;
+}
+
+.panorama-view:active {
+    cursor: grabbing;
+}
+
+.panorama-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.panorama-controls {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    z-index: 100;
+}
+
+.panorama-controls::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+.control-btn {
+    width: 45px;
+    height: 45px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    color: var(--text-primary);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.control-btn:hover {
+    background: rgba(0, 200, 255, 0.3);
+    border-color: var(--accent-primary);
+}
+
+.control-btn:nth-child(1) {
+    position: absolute;
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.control-btn:nth-child(2) {
+    margin-bottom: 5px;
+}
+
+.control-btn:nth-child(4) {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.zoom-controls {
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.zoom-btn {
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 200, 255, 0.1);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.zoom-btn:hover {
+    background: rgba(0, 200, 255, 0.3);
+    border-color: var(--accent-primary);
+}
+
+.zoom-level {
+    font-size: 12px;
+    color: var(--text-secondary);
+    min-width: 50px;
+    text-align: center;
+}
+
+.floor-plan-floating {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    width: 280px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    z-index: 500;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.floor-plan-floating.dragging {
+    opacity: 0.8;
+    cursor: grabbing;
+}
+
+.floor-plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: rgba(0, 200, 255, 0.1);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.floor-plan-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.close-btn {
+    width: 24px;
+    height: 24px;
+    background: rgba(239, 68, 68, 0.1);
+    border: none;
+    border-radius: 6px;
+    color: #ef4444;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.floor-plan-content {
+    position: relative;
+    padding: 10px;
+}
+
+.floor-plan-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.room-markers {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+}
+
+.marker {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.marker:hover {
+    transform: scale(1.5);
+}
+
+.marker.living {
+    background: rgba(0, 200, 255, 0.9);
+    box-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+}
+
+.marker.bedroom {
+    background: rgba(0, 255, 136, 0.9);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.marker.kitchen {
+    background: rgba(255, 193, 7, 0.9);
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.marker.bathroom {
+    background: rgba(239, 68, 68, 0.9);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.drag-handle {
+    height: 10px;
+    background: rgba(0, 200, 255, 0.2);
+    cursor: grab;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.room-info {
+    position: fixed;
+    bottom: 50px;
+    left: 30px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px 20px;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.room-info.show {
+    opacity: 1;
+}
+
+.room-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-primary);
+    margin-bottom: 5px;
+}
+
+.room-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .floor-plan-floating {
+        width: 220px;
+        right: 15px;
+    }
+    
+    .panorama-controls {
+        bottom: 30px;
+    }
+    
+    .zoom-controls {
+        bottom: 30px;
+        right: 15px;
+    }
+}
