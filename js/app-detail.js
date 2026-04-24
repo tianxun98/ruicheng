@@ -109,40 +109,7 @@ async function submitRequest() {
 }
 
 async function generateDesignImage(prompt) {
-    try {
-        const response = await fetch('https://api.deepai.org/api/text2img', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'api-key': 'quickstart-QUdJIGlzIGNvbWluZy4uLi4='
-            },
-            body: JSON.stringify({
-                text: prompt || 'modern interior design, living room, minimalist style, 4K, photorealistic, professional architectural rendering'
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (data && data.output_url) {
-            return data.output_url;
-        } else {
-            console.error('API response:', data);
-            throw new Error(data.error || 'Failed to generate image');
-        }
-    } catch (error) {
-        console.error('Image generation error:', error);
-        return fallbackGenerateImage(prompt);
-    }
-}
-
-function fallbackGenerateImage(prompt) {
-    const images = [
-        'https://picsum.photos/512/512?random=1',
-        'https://picsum.photos/512/512?random=2',
-        'https://picsum.photos/512/512?random=3',
-        'https://picsum.photos/512/512?random=4'
-    ];
-    return images[Math.floor(Math.random() * images.length)];
+    return 'images/2d-test.jpg';
 }
 
 function renderGallery() {
